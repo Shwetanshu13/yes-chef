@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Yes Chef — Next.js + Appwrite + Gemini 2.5
 
-## Getting Started
+A minimal recipe vault featuring:
 
-First, run the development server:
+- Email/password auth (Appwrite Account)
+- Manual, semi-AI (structure messy text), and full-AI (prompt) recipe creation
+- Friend connections to see each other’s recipes
+- Filters by cuisine, course, type, and search
+
+### Quick start
+
+1. Install deps
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Configure environment — copy `.env.example` to `.env.local` and fill:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- `NEXT_PUBLIC_APPWRITE_ENDPOINT`
+- `NEXT_PUBLIC_APPWRITE_PROJECT`
+- `NEXT_PUBLIC_APPWRITE_DATABASE_ID`
+- `NEXT_PUBLIC_APPWRITE_RECIPE_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_PROFILE_COLLECTION_ID`
+- `NEXT_PUBLIC_APPWRITE_FRIEND_COLLECTION_ID`
+- `GEMINI_API_KEY` (server-side, used by API routes)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Appwrite collections (all string unless noted):
 
-## Learn More
+- Profiles: `name`, `email`, `userId`
+- Recipes: `ownerId`, `title`, `description`, `cuisine`, `type`, `course`, `nutrition` (object), `ingredients` (string array), `steps` (string array), `image`, `link`
+- Friends: `ownerId`, `friendId`, `friendName`, `friendEmail`
 
-To learn more about Next.js, take a look at the following resources:
+Set permissions so logged-in users can create/read their documents; recipes should allow read for owner + friends (or use collection-level read for users and rely on `ownerId` filters).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Gemini
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+API routes `/api/ai/structure` and `/api/ai/generate` use the `@google/generative-ai` SDK with model `gemini-2.5-pro`. Keep `GEMINI_API_KEY` private (server env only).
