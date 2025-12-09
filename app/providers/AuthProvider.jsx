@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { ensureSession, getProfile, logout } from "@/lib/appwrite";
 
 const AuthContext = createContext({
   user: null,
@@ -17,13 +16,9 @@ export function AuthProvider({ children }) {
   const load = async () => {
     setLoading(true);
     try {
-      const sessionUser = await ensureSession();
-      if (sessionUser) {
-        const profile = await getProfile();
-        setUser({ ...sessionUser, profile });
-      } else {
-        setUser(null);
-      }
+      const res = await fetch("/api/auth/me");
+      const json = await res.json();
+      setUser(json.user);
     } catch (error) {
       console.error(error);
       setUser(null);
@@ -37,7 +32,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
+    await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
   };
 

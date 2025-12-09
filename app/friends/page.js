@@ -66,7 +66,7 @@ export default function FriendsPage() {
                 {friends.length === 0 && <p className="text-neutral-400">No friends yet.</p>}
                 <div className="grid gap-3 sm:grid-cols-2">
                     {friends.map((f) => (
-                        <div key={f.$id} className="rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-4 dark:border-neutral-200 dark:bg-white">
+                        <div key={f.id} className="rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-4 dark:border-neutral-200 dark:bg-white">
                             <p className="text-sm font-semibold text-white dark:text-neutral-900">{f.friendName || f.friendEmail}</p>
                             <p className="text-xs text-neutral-400 dark:text-neutral-600">{f.friendEmail}</p>
                         </div>

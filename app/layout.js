@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Yes Chef | Recipes with AI",
-  description: "Store, generate, and share recipes with Appwrite and Gemini.",
+  description: "Store, generate, and share recipes with Postgres, Drizzle, and Gemini.",
 };
 
 export default function RootLayout({ children }) {

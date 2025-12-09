@@ -21,7 +21,7 @@ export default function Home() {
       <div className="rounded-3xl border border-emerald-500/30 bg-linear-to-br from-neutral-950 via-neutral-900 to-neutral-950 p-10 shadow-xl dark:from-white dark:via-neutral-100 dark:to-white dark:border-emerald-600/30">
         <p className="text-sm uppercase tracking-[0.3em] text-emerald-300 dark:text-emerald-700">Cooking with AI</p>
         <h1 className="mt-4 text-4xl font-semibold text-white leading-tight dark:text-neutral-900">
-          A minimal recipe hub with Appwrite auth, friendly sharing, and Gemini-powered creation.
+          A minimal recipe hub with Postgres + Drizzle auth, friendly sharing, and Gemini-powered creation.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-neutral-300 dark:text-neutral-700">
           Capture your own dishes, auto-structure messy notes, or let AI cook up something new. Invite

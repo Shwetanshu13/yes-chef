@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { login } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/app/providers/AuthProvider";
@@ -18,7 +17,13 @@ export default function LoginPage() {
         setBusy(true);
         setError("");
         try {
-            await login(form);
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(form),
+            });
+            const json = await res.json();
+            if (!res.ok) throw new Error(json.error || "Login failed");
             await refresh();
             router.push("/recipes");
         } catch (err) {

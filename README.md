@@ -1,8 +1,8 @@
-## Yes Chef — Next.js + Appwrite + Gemini 2.5
+## Yes Chef — Next.js + Drizzle + Postgres + Gemini 2.5
 
 A minimal recipe vault featuring:
 
-- Email/password auth (Appwrite Account)
+- Email/password auth with JWT cookies (Next.js API routes)
 - Manual, semi-AI (structure messy text), and full-AI (prompt) recipe creation
 - Friend connections to see each other’s recipes
 - Filters by cuisine, course, type, and search
@@ -18,22 +18,23 @@ pnpm dev
 
 2. Configure environment — copy `.env.example` to `.env.local` and fill:
 
-- `NEXT_PUBLIC_APPWRITE_ENDPOINT`
-- `NEXT_PUBLIC_APPWRITE_PROJECT`
-- `NEXT_PUBLIC_APPWRITE_DATABASE_ID`
-- `NEXT_PUBLIC_APPWRITE_RECIPE_COLLECTION_ID`
-- `NEXT_PUBLIC_APPWRITE_PROFILE_COLLECTION_ID`
-- `NEXT_PUBLIC_APPWRITE_FRIEND_COLLECTION_ID`
+- `DATABASE_URL` (Postgres connection string)
+- `JWT_SECRET` (for signing session tokens)
 - `GEMINI_API_KEY` (server-side, used by API routes)
 
-3. Appwrite collections (all string unless noted):
+3. Drizzle schema (in `lib/db/schema.js`)
 
-- Profiles: `name`, `email`, `userId`
-- Recipes: `ownerId`, `title`, `description`, `cuisine`, `type`, `course`, `nutrition` (object), `ingredients` (string array), `steps` (string array), `image`, `link`
-- Friends: `ownerId`, `friendId`, `friendName`, `friendEmail`
+- `users`: id (uuid pk), name, email (unique), password_hash
+- `recipes`: id, owner_id (fk users), title, description, cuisine (enum), type (enum), course (enum), nutrition (json), ingredients (json[]), steps (json[]), image, link
+- `friends`: id, owner_id (fk users), friend_id (fk users), friend_name, friend_email
 
-Set permissions so logged-in users can create/read their documents; recipes should allow read for owner + friends (or use collection-level read for users and rely on `ownerId` filters).
+4. Migrate
 
-4. Gemini
+```bash
+pnpm dlx drizzle-kit generate
+pnpm dlx drizzle-kit push
+```
+
+5. Gemini
 
 API routes `/api/ai/structure` and `/api/ai/generate` use the `@google/generative-ai` SDK with model `gemini-2.5-pro`. Keep `GEMINI_API_KEY` private (server env only).

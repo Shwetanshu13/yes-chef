@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/app/providers/AuthProvider";
-import { fetchFriends, fetchRecipes } from "@/lib/recipes";
+import { fetchRecipes } from "@/lib/recipes";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeFilters from "@/components/RecipeFilters";
 
@@ -11,24 +11,13 @@ export default function RecipesPage() {
     const [filters, setFilters] = useState({ search: "", cuisine: "", course: "", type: "" });
     const [recipes, setRecipes] = useState([]);
     const [status, setStatus] = useState("idle");
-    const [friendIds, setFriendIds] = useState([]);
-
-    useEffect(() => {
-        if (!user) return;
-        const loadFriends = async () => {
-            const docs = await fetchFriends();
-            setFriendIds(docs.map((d) => d.friendId));
-        };
-        loadFriends();
-    }, [user]);
-
     useEffect(() => {
         if (!user) return;
         const load = async () => {
             setStatus("loading");
             try {
-                const res = await fetchRecipes({ ownerId: user.$id, friendIds, filters });
-                setRecipes(res.documents || []);
+                const res = await fetchRecipes(filters);
+                setRecipes(res || []);
                 setStatus("done");
             } catch (error) {
                 console.error(error);
@@ -36,7 +25,7 @@ export default function RecipesPage() {
             }
         };
         load();
-    }, [user, JSON.stringify(filters), friendIds]);
+    }, [user, JSON.stringify(filters)]);
 
     if (loading) return <p>Loading...</p>;
     if (!user)
@@ -60,7 +49,7 @@ export default function RecipesPage() {
             {recipes.length === 0 && status === "done" && <p className="text-neutral-400">No recipes yet.</p>}
             <div className="grid gap-4 md:grid-cols-2">
                 {recipes.map((recipe) => (
-                    <RecipeCard key={recipe.$id} recipe={recipe} />
+                    <RecipeCard key={recipe.id} recipe={recipe} />
                 ))}
             </div>
         </div>

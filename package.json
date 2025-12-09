@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
-    "appwrite": "^16.0.0",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.32.2",
+    "jose": "^5.2.0",
     "next": "16.0.7",
+    "pg": "^8.11.5",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "drizzle-kit": "^0.24.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "tailwindcss": "^4"
