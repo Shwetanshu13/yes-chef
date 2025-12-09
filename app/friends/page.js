@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/app/providers/AuthProvider";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { addFriend, fetchFriends } from "@/lib/recipes";
 import { useEffect, useState } from "react";
 

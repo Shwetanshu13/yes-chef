@@ -7,33 +7,76 @@ import {
   recipeDefaults,
   typeOptions,
 } from "@/lib/enums";
-import { useState } from "react";
+import { uploadImageFile } from "@/lib/uploads";
+import { useEffect, useState } from "react";
 
 export default function RecipeForm({
   initial = recipeDefaults,
   onSubmit,
   cta = "Save Recipe",
   busy,
+  clearOnSubmit = true,
+  onChange,
 }) {
   const [form, setForm] = useState(initial);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
-  const updateField = (key, value) => setForm((f) => ({ ...f, [key]: value }));
+  useEffect(() => {
+    setForm(initial);
+  }, [initial]);
+
+  const updateField = (key, value) =>
+    setForm((f) => {
+      const next = { ...f, [key]: value };
+      onChange?.(next);
+      return next;
+    });
   const updateArray = (key, index, value) =>
-    setForm((f) => ({
-      ...f,
-      [key]: f[key].map((item, i) => (i === index ? value : item)),
-    }));
+    setForm((f) => {
+      const next = {
+        ...f,
+        [key]: f[key].map((item, i) => (i === index ? value : item)),
+      };
+      onChange?.(next);
+      return next;
+    });
 
-  const addRow = (key) => setForm((f) => ({ ...f, [key]: [...f[key], ""] }));
+  const addRow = (key) =>
+    setForm((f) => {
+      const next = { ...f, [key]: [...f[key], ""] };
+      onChange?.(next);
+      return next;
+    });
+
   const removeRow = (key, index) =>
-    setForm((f) => ({
-      ...f,
-      [key]: f[key].filter((_, i) => i !== index && f[key].length > 1),
-    }));
+    setForm((f) => {
+      const next = {
+        ...f,
+        [key]: f[key].filter((_, i) => i !== index && f[key].length > 1),
+      };
+      onChange?.(next);
+      return next;
+    });
 
   const submit = (e) => {
     e.preventDefault();
     onSubmit(form);
+    if (clearOnSubmit) setForm(recipeDefaults);
+  };
+
+  const handleFile = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const url = await uploadImageFile(file);
+      updateField("image", url);
+    } catch (err) {
+      setUploadError(err.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -114,6 +157,21 @@ export default function RecipeForm({
           onChange={(v) => updateField("image", v)}
           placeholder="https://...jpg"
         />
+        <label className="grid gap-1 text-sm text-neutral-400">
+          Upload image
+          <input
+            type="file"
+            accept="image/*"
+            className="input"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+          {uploading && (
+            <span className="text-xs text-neutral-400">Uploading...</span>
+          )}
+          {uploadError && (
+            <span className="text-xs text-red-400">{uploadError}</span>
+          )}
+        </label>
         <Input
           label="Reference link"
           value={form.link}

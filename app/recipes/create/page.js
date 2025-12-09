@@ -1,15 +1,17 @@
 "use client";
 
-import { useAuth } from "@/app/providers/AuthProvider";
+import { useAuth } from "@/components/providers/AuthProvider";
 import RecipeForm from "@/components/RecipeForm";
 import { recipeDefaults } from "@/lib/enums";
 import { saveManualRecipe, saveStructuredRecipe } from "@/lib/recipes";
 import { useState } from "react";
+import { useToast } from "@/components/providers/ToastProvider";
 
 export default function CreateRecipePage() {
     const { user } = useAuth();
     const [manualBusy, setManualBusy] = useState(false);
     const [aiBusy, setAiBusy] = useState(false);
+    const { toast } = useToast();
     const [structured, setStructured] = useState(recipeDefaults);
     const [rawText, setRawText] = useState("");
     const [aiPrompt, setAiPrompt] = useState("");
@@ -30,6 +32,8 @@ export default function CreateRecipePage() {
             setMessage("Recipe saved.");
         } catch (error) {
             setMessage(error?.message || "Save failed");
+            toast({ title: "Recipe saved" });
+            setStructured(recipeDefaults);
         } finally {
             setManualBusy(false);
         }
@@ -45,9 +49,12 @@ export default function CreateRecipePage() {
                 body: JSON.stringify({ rawText }),
             });
             const json = await res.json();
+            // console.log(json);
             if (!res.ok) throw new Error(json.error || "AI failed");
             setStructured({ ...recipeDefaults, ...json.data });
-        } catch (error) {
+            // console.log(structured);
+            setStructured({ ...recipeDefaults, ...json.data });
+            toast({ title: "Structured recipe saved" });
             setMessage(error.message);
         } finally {
             setAiBusy(false);
@@ -66,7 +73,8 @@ export default function CreateRecipePage() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.error || "AI failed");
             setStructured({ ...recipeDefaults, ...json.data });
-        } catch (error) {
+            setStructured({ ...recipeDefaults, ...json.data });
+            toast({ title: "Generated recipe saved" });
             setMessage(error.message);
         } finally {
             setAiBusy(false);
@@ -80,6 +88,7 @@ export default function CreateRecipePage() {
             await saveStructuredRecipe(data);
             setMessage("AI recipe saved.");
         } catch (error) {
+            toast({ title: "AI recipe saved" });
             setMessage(error?.message || "Save failed");
         } finally {
             setManualBusy(false);
@@ -91,7 +100,7 @@ export default function CreateRecipePage() {
             <header className="grid gap-2">
                 <p className="text-sm uppercase tracking-[0.2em] text-emerald-300 dark:text-emerald-700">Create</p>
                 <h1 className="text-3xl font-semibold text-white dark:text-neutral-900">Add a recipe</h1>
-                <p className="text-sm text-neutral-400 dark:text-neutral-600">Manual entry or let Gemini 2.5 help.</p>
+                <p className="text-sm text-neutral-400 dark:text-neutral-600">Manual entry or let AI help.</p>
             </header>
 
             <section className="grid gap-4 rounded-3xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 shadow-lg dark:border-neutral-200 dark:bg-white">

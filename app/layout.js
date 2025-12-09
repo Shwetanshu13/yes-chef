@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./providers/ThemeProvider";
-import { AuthProvider } from "./providers/AuthProvider";
+import { ThemeProvider } from "../components/providers/ThemeProvider";
+import { AuthProvider } from "../components/providers/AuthProvider";
+import { ToastProvider } from "@/components/providers/ToastProvider";
 import NavBar from "@/components/NavBar";
 
 const geistSans = Geist({
@@ -17,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Yes Chef | Recipes with AI",
   description: "Store, generate, and share recipes with Postgres, Drizzle, and Gemini.",
+  description: "Store, generate, and share recipes with a sprinkle of AI assistance.",
 };
 
 export default function RootLayout({ children }) {
@@ -26,10 +28,12 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider>
           <AuthProvider>
-            <div className="min-h-screen bg-neutral-950 text-neutral-50 dark:bg-neutral-50 dark:text-neutral-900">
-              <NavBar />
-              <main className="mx-auto max-w-6xl px-6 pb-16 pt-10">{children}</main>
-            </div>
+            <ToastProvider>
+              <div className="min-h-screen bg-[color:var(--background)] text-[color:var(--foreground)]">
+                <NavBar />
+                <main className="mx-auto max-w-6xl px-6 pb-16 pt-10">{children}</main>
+              </div>
+            </ToastProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

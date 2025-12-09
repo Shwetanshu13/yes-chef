@@ -39,6 +39,14 @@ body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+.card {
+  @apply rounded-2xl border border-border bg-[color:var(--card)]/90 shadow-lg backdrop-blur;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
 .input {
   @apply w-full rounded-xl border border-border bg-transparent px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent;
 }
