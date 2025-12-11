@@ -3,6 +3,18 @@ import { db } from "@/db";
 import { friends, recipes } from "@/db/schema";
 import { and, eq, ilike, inArray, or } from "drizzle-orm";
 import { requireUser } from "@/lib/server-auth";
+import { courseOptions, cuisineOptions, typeOptions } from "@/lib/enums";
+
+function normalizeEnum(value, options) {
+    if (!value) return options[0];
+    const cleaned = value.toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+    return options.find((opt) => opt === cleaned) || options[0];
+}
+
+function normalizeArray(value) {
+    if (!Array.isArray(value)) return [];
+    return value.map((v) => (v == null ? "" : String(v))).filter((v) => v.length > 0);
+}
 
 export async function GET(req) {
     try {
@@ -47,12 +59,12 @@ export async function POST(request) {
         const payload = {
             title: body.title,
             description: body.description || null,
-            cuisine: body.cuisine,
-            type: body.type,
-            course: body.course,
+            cuisine: normalizeEnum(body.cuisine, cuisineOptions),
+            type: normalizeEnum(body.type, typeOptions),
+            course: normalizeEnum(body.course, courseOptions),
             nutrition: body.nutrition || null,
-            ingredients: body.ingredients || [],
-            steps: body.steps || [],
+            ingredients: normalizeArray(body.ingredients),
+            steps: normalizeArray(body.steps),
             image: body.image || null,
             link: body.link || null,
             ownerId: user.id,

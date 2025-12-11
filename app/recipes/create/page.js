@@ -52,10 +52,11 @@ export default function CreateRecipePage() {
             // console.log(json);
             if (!res.ok) throw new Error(json.error || "AI failed");
             setStructured({ ...recipeDefaults, ...json.data });
-            // console.log(structured);
-            setStructured({ ...recipeDefaults, ...json.data });
-            toast({ title: "Structured recipe saved" });
+            toast({ title: "Structured recipe ready" });
+            setMessage("Structured draft ready to review.");
+        } catch (error) {
             setMessage(error.message);
+            toast({ title: "AI failed", description: error.message, type: "error" });
         } finally {
             setAiBusy(false);
         }
@@ -73,9 +74,11 @@ export default function CreateRecipePage() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.error || "AI failed");
             setStructured({ ...recipeDefaults, ...json.data });
-            setStructured({ ...recipeDefaults, ...json.data });
-            toast({ title: "Generated recipe saved" });
+            toast({ title: "Generated recipe ready" });
+            setMessage("AI draft ready to review.");
+        } catch (error) {
             setMessage(error.message);
+            toast({ title: "AI failed", description: error.message, type: "error" });
         } finally {
             setAiBusy(false);
         }
@@ -88,7 +91,7 @@ export default function CreateRecipePage() {
             await saveStructuredRecipe(data);
             setMessage("AI recipe saved.");
         } catch (error) {
-            toast({ title: "AI recipe saved" });
+            toast({ title: "Save failed", description: error?.message, type: "error" });
             setMessage(error?.message || "Save failed");
         } finally {
             setManualBusy(false);

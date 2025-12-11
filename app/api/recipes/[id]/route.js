@@ -3,6 +3,18 @@ import { db } from "@/db";
 import { recipes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { requireUser } from "@/lib/server-auth";
+import { courseOptions, cuisineOptions, typeOptions } from "@/lib/enums";
+
+function normalizeEnum(value, options, fallback) {
+    if (!value) return fallback;
+    const cleaned = value.toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+    return options.find((opt) => opt === cleaned) || fallback;
+}
+
+function normalizeArray(value, fallback = []) {
+    if (!Array.isArray(value)) return fallback;
+    return value.map((v) => (v == null ? "" : String(v))).filter((v) => v.length > 0);
+}
 
 export async function PATCH(request, { params }) {
     try {
@@ -18,12 +30,12 @@ export async function PATCH(request, { params }) {
         const payload = {
             title: body.title ?? recipe.title,
             description: body.description ?? recipe.description,
-            cuisine: body.cuisine ?? recipe.cuisine,
-            type: body.type ?? recipe.type,
-            course: body.course ?? recipe.course,
+            cuisine: normalizeEnum(body.cuisine ?? recipe.cuisine, cuisineOptions, recipe.cuisine),
+            type: normalizeEnum(body.type ?? recipe.type, typeOptions, recipe.type),
+            course: normalizeEnum(body.course ?? recipe.course, courseOptions, recipe.course),
             nutrition: body.nutrition ?? recipe.nutrition,
-            ingredients: body.ingredients ?? recipe.ingredients,
-            steps: body.steps ?? recipe.steps,
+            ingredients: normalizeArray(body.ingredients ?? recipe.ingredients, recipe.ingredients ?? []),
+            steps: normalizeArray(body.steps ?? recipe.steps, recipe.steps ?? []),
             image: body.image ?? recipe.image,
             link: body.link ?? recipe.link,
         };
