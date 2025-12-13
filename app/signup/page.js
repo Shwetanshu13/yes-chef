@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
 
-export default function SignupPage() {
+function SignupInner() {
     const router = useRouter();
     const search = useSearchParams();
     const redirectTo = search.get("redirect") || "/recipes";
@@ -78,5 +78,13 @@ export default function SignupPage() {
                 Already have an account? <Link className="text-accent" href="/login">Sign in</Link>
             </p>
         </div>
+    );
+}
+
+export default function SignupPage() {
+    return (
+        <Suspense fallback={null}>
+            <SignupInner />
+        </Suspense>
     );
 }
