@@ -18,12 +18,12 @@ const featureCards = [
 export default function Home() {
   return (
     <section className="grid gap-10">
-      <div className="rounded-3xl border border-emerald-500/30 bg-linear-to-br from-neutral-950 via-neutral-900 to-neutral-950 p-10 shadow-xl dark:from-white dark:via-neutral-100 dark:to-white dark:border-emerald-600/30">
-        <p className="text-sm uppercase tracking-[0.3em] text-emerald-300 dark:text-emerald-700">Cooking with AI</p>
-        <h1 className="mt-4 text-4xl font-semibold text-white leading-tight dark:text-neutral-900">
+      <div className="rounded-3xl border border-emerald-200 bg-linear-to-br from-white via-emerald-50 to-white p-10 shadow-xl">
+        <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">Cooking with AI</p>
+        <h1 className="mt-4 text-4xl font-semibold leading-tight">
           A minimal recipe hub with friendly sharing and AI-powered creation.
         </h1>
-        <p className="mt-4 max-w-2xl text-lg text-neutral-300 dark:text-neutral-700">
+        <p className="mt-4 max-w-2xl text-lg text-muted">
           Capture your own dishes, auto-structure messy notes, or let AI cook up something new. Invite
           friends to follow and browse each other’s favorites.
         </p>
@@ -41,10 +41,10 @@ export default function Home() {
         {featureCards.map((card) => (
           <div
             key={card.title}
-            className="rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-5 text-neutral-100 dark:border-neutral-200 dark:bg-white"
+            className="card p-5"
           >
-            <h3 className="text-xl font-semibold text-white dark:text-neutral-900">{card.title}</h3>
-            <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-700">{card.body}</p>
+            <h3 className="text-xl font-semibold">{card.title}</h3>
+            <p className="mt-2 text-sm text-muted">{card.body}</p>
           </div>
         ))}
       </div>

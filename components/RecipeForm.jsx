@@ -82,7 +82,7 @@ export default function RecipeForm({
   return (
     <form onSubmit={submit} className="grid gap-4">
       <div className="grid gap-2">
-        <label className="text-sm text-neutral-400">Title</label>
+        <label className="text-sm text-muted">Title</label>
         <input
           required
           className="input"
@@ -92,7 +92,7 @@ export default function RecipeForm({
         />
       </div>
       <div className="grid gap-2">
-        <label className="text-sm text-neutral-400">Description</label>
+        <label className="text-sm text-muted">Description</label>
         <textarea
           className="input min-h-20"
           value={form.description}
@@ -157,7 +157,7 @@ export default function RecipeForm({
           onChange={(v) => updateField("image", v)}
           placeholder="https://...jpg"
         />
-        <label className="grid gap-1 text-sm text-neutral-400">
+        <label className="grid gap-1 text-sm text-muted">
           Upload image
           <input
             type="file"
@@ -166,7 +166,7 @@ export default function RecipeForm({
             onChange={(e) => handleFile(e.target.files?.[0])}
           />
           {uploading && (
-            <span className="text-xs text-neutral-400">Uploading...</span>
+            <span className="text-xs text-muted">Uploading...</span>
           )}
           {uploadError && (
             <span className="text-xs text-red-400">{uploadError}</span>
@@ -193,7 +193,7 @@ export default function RecipeForm({
 function ListField({ label, items, onChange, onAdd, onRemove }) {
   return (
     <div className="grid gap-2">
-      <div className="flex items-center justify-between text-sm text-neutral-400">
+      <div className="flex items-center justify-between text-sm text-muted">
         <span>{label}</span>
         <button
           type="button"
@@ -227,7 +227,7 @@ function ListField({ label, items, onChange, onAdd, onRemove }) {
 
 function Input({ label, value, onChange, placeholder }) {
   return (
-    <label className="grid gap-1 text-sm text-neutral-400">
+    <label className="grid gap-1 text-sm text-muted">
       {label}
       <input
         className="input"
@@ -241,7 +241,7 @@ function Input({ label, value, onChange, placeholder }) {
 
 function Select({ label, value, onChange, options }) {
   return (
-    <label className="grid gap-1 text-sm text-neutral-400">
+    <label className="grid gap-1 text-sm text-muted">
       {label}
       <select
         className="input"

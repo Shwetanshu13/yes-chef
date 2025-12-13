@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
 
 export default function SignupPage() {
     const router = useRouter();
+    const search = useSearchParams();
+    const redirectTo = search.get("redirect") || "/recipes";
     const { refresh } = useAuth();
     const [form, setForm] = useState({ name: "", email: "", password: "" });
     const [error, setError] = useState("");
@@ -25,7 +27,7 @@ export default function SignupPage() {
             const json = await res.json();
             if (!res.ok) throw new Error(json.error || "Sign up failed");
             await refresh();
-            router.push("/recipes");
+            router.push(redirectTo);
         } catch (err) {
             setError(err?.message || "Sign up failed");
         } finally {
@@ -34,9 +36,9 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="mx-auto max-w-md rounded-3xl border border-neutral-800/60 bg-neutral-900/70 p-8 text-neutral-100 dark:border-neutral-200 dark:bg-white">
-            <h1 className="text-2xl font-semibold text-white dark:text-neutral-900">Create your kitchen</h1>
-            <p className="mt-2 text-sm text-neutral-400 dark:text-neutral-600">Store recipes and share with friends.</p>
+        <div className="mx-auto max-w-md card p-8">
+            <h1 className="text-2xl font-semibold">Create your kitchen</h1>
+            <p className="mt-2 text-sm text-muted">Store recipes and share with friends.</p>
             <form onSubmit={submit} className="mt-6 grid gap-4">
                 <label className="grid gap-2 text-sm">
                     Name
@@ -72,8 +74,8 @@ export default function SignupPage() {
                     {busy ? "Creating..." : "Create account"}
                 </button>
             </form>
-            <p className="mt-4 text-sm text-neutral-400 dark:text-neutral-600">
-                Already have an account? <Link className="text-emerald-300 dark:text-emerald-700" href="/login">Sign in</Link>
+            <p className="mt-4 text-sm text-muted">
+                Already have an account? <Link className="text-accent" href="/login">Sign in</Link>
             </p>
         </div>
     );

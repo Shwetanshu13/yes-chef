@@ -37,7 +37,7 @@ export default function RecipeCard({ recipe, onSelect }) {
 
 function Badge({ label }) {
   return (
-    <span className="rounded-full border border-neutral-700 px-2 py-1 text-[11px] uppercase tracking-wide dark:border-neutral-300">
+    <span className="rounded-full border border-border px-2 py-1 text-[11px] uppercase tracking-wide">
       {label}
     </span>
   );

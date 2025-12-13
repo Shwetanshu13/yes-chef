@@ -34,7 +34,7 @@ export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-neutral-950/80 p-4 backdrop-blur-sm">
       <div className="card relative max-h-[90vh] w-full max-w-4xl overflow-y-auto p-6">
         <button
-          className="absolute right-3 top-3 text-sm text-muted hover:text-accent"
+          className="absolute right-3 top-3 text-sm text-muted hover:text-accent cursor-pointer"
           onClick={onClose}
           aria-label="Close"
         >
@@ -137,19 +137,19 @@ export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
 
             <div className="flex flex-wrap items-center gap-3">
               <button
-                className="rounded-full border border-border px-4 py-2 text-sm hover:border-emerald-400"
+                className="rounded-full border border-border px-4 py-2 text-sm cursor-pointer hover:border-emerald-400"
                 onClick={() => setEditing(true)}
               >
                 Edit
               </button>
               <button
-                className="rounded-full border border-red-400/70 px-4 py-2 text-sm text-red-500 hover:border-red-500"
+                className="rounded-full border border-red-400/70 px-4 py-2 text-sm cursor-pointer text-red-500 hover:border-red-500"
                 onClick={onDelete}
               >
                 Delete
               </button>
               <button
-                className="rounded-full border border-border px-4 py-2 text-sm text-muted hover:border-emerald-400"
+                className="rounded-full border border-border px-4 py-2 text-sm cursor-pointer text-muted hover:border-emerald-400"
                 onClick={onClose}
               >
                 Close

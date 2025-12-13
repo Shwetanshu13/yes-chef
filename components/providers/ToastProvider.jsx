@@ -36,13 +36,11 @@ export function ToastProvider({ children }) {
         {toasts.map((t) => (
           <div
             key={t.id}
-            className={`rounded-xl border px-4 py-3 shadow-lg backdrop-blur bg-neutral-900/80 text-neutral-50 border-neutral-700 dark:bg-white/90 dark:text-neutral-900 dark:border-neutral-200`}
+            className="rounded-xl border border-border px-4 py-3 shadow-lg backdrop-blur"
           >
             <p className="text-sm font-semibold">{t.title}</p>
             {t.description && (
-              <p className="text-xs text-neutral-300 dark:text-neutral-700">
-                {t.description}
-              </p>
+              <p className="text-xs text-muted">{t.description}</p>
             )}
           </div>
         ))}

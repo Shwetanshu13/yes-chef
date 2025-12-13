@@ -11,7 +11,7 @@ import RecipeFilters from "@/components/RecipeFilters";
 export default function RecipesPage() {
     const { user, loading } = useAuth();
     const { toast } = useToast();
-    const [filters, setFilters] = useState({ search: "", cuisine: "", course: "", type: "" });
+    const [filters, setFilters] = useState({ search: "", cuisine: "", course: "", type: "", scope: "all" });
     const [recipes, setRecipes] = useState([]);
     const [status, setStatus] = useState("idle");
     const [selected, setSelected] = useState(null);
@@ -34,7 +34,7 @@ export default function RecipesPage() {
     if (loading) return <p>Loading...</p>;
     if (!user)
         return (
-            <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 dark:border-neutral-200 dark:bg-white">
+            <div className="card p-6">
                 <p>Please sign in to view recipes.</p>
             </div>
         );

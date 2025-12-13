@@ -6,10 +6,10 @@ export default function RecipeFilters({ filters, onChange }) {
   const handle = (key, value) => onChange({ ...filters, [key]: value });
 
   return (
-    <div className="flex flex-wrap gap-3 rounded-xl border border-neutral-800/60 bg-neutral-900/70 p-4 text-sm text-neutral-100 dark:border-neutral-200 dark:bg-white">
+    <div className="card flex flex-wrap gap-3 p-4 text-sm">
       <input
         placeholder="Search title"
-        className="min-w-[180px] rounded-lg border border-neutral-700 bg-transparent px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none dark:border-neutral-300"
+        className="input min-w-[180px]"
         value={filters.search || ""}
         onChange={(e) => handle("search", e.target.value)}
       />
@@ -31,10 +31,22 @@ export default function RecipeFilters({ filters, onChange }) {
         onChange={(v) => handle("type", v)}
         options={typeOptions}
       />
+      <Select
+        label="Scope"
+        value={filters.scope}
+        onChange={(v) => handle("scope", v)}
+        options={["mine", "friends"]}
+      />
       <button
-        className="rounded-lg border border-neutral-700 px-3 py-2 hover:border-emerald-400 dark:border-neutral-300"
+        className="rounded-lg border border-border px-3 py-2 hover:border-emerald-400"
         onClick={() =>
-          onChange({ search: "", cuisine: "", course: "", type: "" })
+          onChange({
+            search: "",
+            cuisine: "",
+            course: "",
+            type: "",
+            scope: "all",
+          })
         }
       >
         Clear
@@ -45,10 +57,10 @@ export default function RecipeFilters({ filters, onChange }) {
 
 function Select({ label, value, onChange, options }) {
   return (
-    <label className="flex items-center gap-2 text-xs uppercase tracking-wide text-neutral-400 dark:text-neutral-600">
+    <label className="flex items-center gap-2 text-xs uppercase tracking-wide text-muted">
       {label}
       <select
-        className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-2 text-sm text-neutral-100 focus:border-emerald-400 focus:outline-none dark:bg-white dark:text-neutral-800 dark:border-neutral-300"
+        className="rounded-lg border border-border px-2 py-2 text-sm focus:border-emerald-400 focus:outline-none"
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
       >

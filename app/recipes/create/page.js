@@ -19,7 +19,7 @@ export default function CreateRecipePage() {
 
     if (!user)
         return (
-            <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 dark:border-neutral-200 dark:bg-white">
+            <div className="card p-6">
                 <p>Please sign in to create recipes.</p>
             </div>
         );
@@ -101,26 +101,26 @@ export default function CreateRecipePage() {
     return (
         <div className="grid gap-10">
             <header className="grid gap-2">
-                <p className="text-sm uppercase tracking-[0.2em] text-emerald-300 dark:text-emerald-700">Create</p>
-                <h1 className="text-3xl font-semibold text-white dark:text-neutral-900">Add a recipe</h1>
-                <p className="text-sm text-neutral-400 dark:text-neutral-600">Manual entry or let AI help.</p>
+                <p className="text-sm uppercase tracking-[0.2em] text-emerald-500">Create</p>
+                <h1 className="text-3xl font-semibold">Add a recipe</h1>
+                <p className="text-sm text-muted">Manual entry or let AI help.</p>
             </header>
 
-            <section className="grid gap-4 rounded-3xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 shadow-lg dark:border-neutral-200 dark:bg-white">
+            <section className="card grid gap-4 p-6">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-white dark:text-neutral-900">Manual</h2>
-                    <span className="text-xs uppercase tracking-wide text-neutral-400">Full control</span>
+                    <h2 className="text-xl font-semibold">Manual</h2>
+                    <span className="text-xs uppercase tracking-wide text-muted">Full control</span>
                 </div>
                 <RecipeForm onSubmit={handleManual} busy={manualBusy} />
             </section>
 
-            <section className="grid gap-4 rounded-3xl border border-emerald-500/30 bg-linear-to-br from-emerald-900/40 via-neutral-900 to-neutral-950 p-6 text-neutral-100 shadow-lg dark:from-emerald-100/60 dark:via-white dark:to-white dark:text-neutral-900">
+            <section className="grid gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-xl font-semibold">Semi AI</h2>
-                    <p className="text-sm text-neutral-300 dark:text-neutral-600">Paste messy notes, we structure them.</p>
+                    <p className="text-sm text-muted">Paste messy notes, we structure them.</p>
                 </div>
                 <textarea
-                    className="input min-h-32 bg-neutral-950/70 dark:bg-white"
+                    className="input min-h-32"
                     placeholder="eg. yesterday I made pasta with tomatoes..."
                     value={rawText}
                     onChange={(e) => setRawText(e.target.value)}
@@ -128,16 +128,16 @@ export default function CreateRecipePage() {
                 <button onClick={handleStructure} disabled={aiBusy} className="btn-primary self-start">
                     {aiBusy ? "Thinking..." : "Structure with AI"}
                 </button>
-                <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-4 dark:border-neutral-200 dark:bg-white">
-                    <p className="text-sm font-semibold text-neutral-200 dark:text-neutral-800">Review & tweak</p>
+                <div className="card p-4">
+                    <p className="text-sm font-semibold">Review & tweak</p>
                     <RecipeForm initial={structured} onSubmit={saveStructured} busy={manualBusy} cta="Save structured" />
                 </div>
             </section>
 
-            <section className="grid gap-3 rounded-3xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 shadow-lg dark:border-neutral-200 dark:bg-white">
+            <section className="card grid gap-3 p-6">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-xl font-semibold">Full AI</h2>
-                    <p className="text-sm text-neutral-300 dark:text-neutral-600">Describe a dish; Gemini drafts it.</p>
+                    <p className="text-sm text-muted">Describe a dish; AI drafts it.</p>
                 </div>
                 <input
                     className="input"
@@ -150,7 +150,7 @@ export default function CreateRecipePage() {
                 </button>
             </section>
 
-            {message && <p className="text-sm text-emerald-300 dark:text-emerald-700">{message}</p>}
+            {message && <p className="text-sm text-emerald-500">{message}</p>}
         </div>
     );
 }

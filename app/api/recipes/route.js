@@ -24,6 +24,7 @@ export async function GET(req) {
         const course = searchParams.get("course") || undefined;
         const type = searchParams.get("type") || undefined;
         const search = searchParams.get("search") || undefined;
+        const scope = searchParams.get("scope") || "all";
 
         const friendRows = await db
             .select({ friendId: friends.friendId })
@@ -31,9 +32,17 @@ export async function GET(req) {
             .where(eq(friends.ownerId, user.id));
         const friendIds = friendRows.map((f) => f.friendId);
 
-        const visibility = friendIds.length
-            ? or(eq(recipes.ownerId, user.id), inArray(recipes.ownerId, friendIds))
-            : eq(recipes.ownerId, user.id);
+        let visibility;
+        if (scope === "mine") {
+            visibility = eq(recipes.ownerId, user.id);
+        } else if (scope === "friends") {
+            if (!friendIds.length) return NextResponse.json({ data: [] });
+            visibility = inArray(recipes.ownerId, friendIds);
+        } else {
+            visibility = friendIds.length
+                ? or(eq(recipes.ownerId, user.id), inArray(recipes.ownerId, friendIds))
+                : eq(recipes.ownerId, user.id);
+        }
 
         const conditions = [visibility];
         if (cuisine) conditions.push(eq(recipes.cuisine, cuisine));

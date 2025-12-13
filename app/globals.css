@@ -48,7 +48,11 @@ body {
 }
 
 .input {
-  @apply w-full rounded-xl border border-border bg-transparent px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent;
+  @apply w-full rounded-xl border border-border bg-[color:var(--card)]/80 px-3 py-2 text-sm text-[color:var(--foreground)] outline-none transition focus:border-accent focus:bg-[color:var(--card)];
+}
+
+.input::placeholder {
+  color: var(--muted);
 }
 
 .btn-primary {

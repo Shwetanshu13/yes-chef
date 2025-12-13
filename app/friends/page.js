@@ -18,7 +18,7 @@ export default function FriendsPage() {
 
     if (!user)
         return (
-            <div className="rounded-2xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 dark:border-neutral-200 dark:bg-white">
+            <div className="card p-6">
                 <p>Please sign in to manage friends.</p>
             </div>
         );
@@ -41,12 +41,12 @@ export default function FriendsPage() {
     return (
         <div className="grid gap-6">
             <header className="grid gap-2">
-                <p className="text-sm uppercase tracking-[0.2em] text-emerald-300 dark:text-emerald-700">Friends</p>
-                <h1 className="text-3xl font-semibold text-white dark:text-neutral-900">Share and browse</h1>
-                <p className="text-sm text-neutral-400 dark:text-neutral-600">Add friends by email to see their recipes.</p>
+                <p className="text-sm uppercase tracking-[0.2em] text-emerald-500">Friends</p>
+                <h1 className="text-3xl font-semibold">Share and browse</h1>
+                <p className="text-sm text-muted">Add friends by email to see their recipes.</p>
             </header>
 
-            <div className="rounded-3xl border border-neutral-800/60 bg-neutral-900/70 p-6 text-neutral-100 dark:border-neutral-200 dark:bg-white">
+            <div className="card p-6">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <input
                         className="input"
@@ -58,17 +58,17 @@ export default function FriendsPage() {
                         {busy ? "Adding..." : "Add friend"}
                     </button>
                 </div>
-                {message && <p className="mt-3 text-sm text-emerald-300 dark:text-emerald-700">{message}</p>}
+                {message && <p className="mt-3 text-sm text-emerald-500">{message}</p>}
             </div>
 
             <div className="grid gap-3">
-                <h2 className="text-xl font-semibold text-white dark:text-neutral-900">Your circle</h2>
-                {friends.length === 0 && <p className="text-neutral-400">No friends yet.</p>}
+                <h2 className="text-xl font-semibold">Your circle</h2>
+                {friends.length === 0 && <p className="text-muted">No friends yet.</p>}
                 <div className="grid gap-3 sm:grid-cols-2">
                     {friends.map((f) => (
-                        <div key={f.id} className="rounded-2xl border border-neutral-800/60 bg-neutral-900/60 p-4 dark:border-neutral-200 dark:bg-white">
-                            <p className="text-sm font-semibold text-white dark:text-neutral-900">{f.friendName || f.friendEmail}</p>
-                            <p className="text-xs text-neutral-400 dark:text-neutral-600">{f.friendEmail}</p>
+                        <div key={f.id} className="card p-4">
+                            <p className="text-sm font-semibold">{f.friendName || f.friendEmail}</p>
+                            <p className="text-xs text-muted">{f.friendEmail}</p>
                         </div>
                     ))}
                 </div>
