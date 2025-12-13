@@ -1,0 +1,29 @@
+<svg width="240" height="260" viewBox="0 0 240 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hatGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f9b233"/>
+      <stop offset="100%" stop-color="#d4871c"/>
+    </linearGradient>
+    <style>
+      .stroke { stroke: url(#hatGradient); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .fill { fill: url(#hatGradient); }
+    </style>
+  </defs>
+  <path class="stroke" d="M60 120c-22 0-40-18-40-40s18-40 40-40c7 0 14 2 20 5 7-15 22-25 40-25s33 10 40 25c6-3 13-5 20-5 22 0 40 18 40 40s-18 40-40 40v36c0 12-10 22-22 22H82c-12 0-22-10-22-22z"/>
+  <path class="fill" d="M70 196h100v14c0 16-13 29-29 29H99c-16 0-29-13-29-29z"/>
+  <g class="stroke">
+    <path d="M98 120v62"/>
+    <path d="M142 120v62"/>
+    <path d="M120 110v72"/>
+    <path d="M98 146h-18"/>
+    <path d="M142 154h18"/>
+    <path d="M120 132h-24"/>
+    <path d="M120 168h24"/>
+    <circle cx="80" cy="146" r="8" fill="#fff3e0" stroke="none"/>
+    <circle cx="160" cy="154" r="8" fill="#fff3e0" stroke="none"/>
+    <circle cx="96" cy="120" r="8" fill="#fff3e0" stroke="none"/>
+    <circle cx="144" cy="120" r="8" fill="#fff3e0" stroke="none"/>
+    <circle cx="120" cy="104" r="8" fill="#fff3e0" stroke="none"/>
+    <circle cx="120" cy="186" r="8" fill="#fff3e0" stroke="none"/>
+  </g>
+</svg>
