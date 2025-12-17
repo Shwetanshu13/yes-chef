@@ -3,11 +3,11 @@
 export default function RecipeCard({ recipe, onSelect }) {
   return (
     <article
-      className="card flex cursor-pointer flex-col gap-2 p-4 transition hover:border-emerald-300/70 hover:shadow-xl"
+      className="card flex cursor-pointer flex-col gap-2 overflow-hidden p-4 transition hover:border-emerald-300/70 hover:shadow-xl"
       onClick={() => onSelect?.(recipe)}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="space-y-1">
+        <div className="min-w-0 flex-1 space-y-1">
           <p className="text-[11px] uppercase tracking-wide text-emerald-500">
             {recipe.course}
           </p>
@@ -19,12 +19,14 @@ export default function RecipeCard({ recipe, onSelect }) {
           )}
         </div>
         {recipe.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={recipe.image}
-            alt={recipe.title}
-            className="h-16 w-16 rounded-lg object-cover border border-border"
-          />
+          <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={recipe.image}
+              alt={recipe.title}
+              className="h-full w-full object-cover"
+            />
+          </div>
         )}
       </div>
       <div className="flex flex-wrap gap-2 text-xs text-muted">

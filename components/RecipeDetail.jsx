@@ -5,14 +5,31 @@ import RecipeForm from "./RecipeForm";
 import { updateRecipe } from "@/lib/recipes";
 import { useToast } from "./providers/ToastProvider";
 
-export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
+export default function RecipeDetail({
+  recipe,
+  onClose,
+  onDelete,
+  onUpdate,
+  currentUserId,
+}) {
   const { toast } = useToast();
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
 
   if (!recipe) return null;
 
+  const canEdit =
+    recipe?.ownerId && currentUserId && recipe.ownerId === currentUserId;
+
   const handleUpdate = async (data) => {
+    if (!canEdit) {
+      toast({
+        title: "Not allowed",
+        description: "You can only edit your own recipes.",
+        type: "error",
+      });
+      return;
+    }
     setBusy(true);
     try {
       const updated = await updateRecipe(recipe.id, data);
@@ -22,7 +39,7 @@ export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
     } catch (error) {
       toast({
         title: "Update failed",
-        description: error.message,
+        description: error?.message || "Unable to save changes.",
         type: "error",
       });
     } finally {
@@ -45,12 +62,14 @@ export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
           <div className="space-y-4 pt-4">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Edit recipe</h2>
-              <button
-                className="text-sm text-muted hover:text-emerald-500"
-                onClick={() => setEditing(false)}
-              >
-                Cancel
-              </button>
+              {canEdit && (
+                <button
+                  className="text-sm text-muted hover:text-emerald-500"
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel
+                </button>
+              )}
             </div>
             <RecipeForm
               initial={recipe}
@@ -136,18 +155,27 @@ export default function RecipeDetail({ recipe, onClose, onDelete, onUpdate }) {
             )}
 
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                className="rounded-full border border-border px-4 py-2 text-sm cursor-pointer hover:border-emerald-400"
-                onClick={() => setEditing(true)}
-              >
-                Edit
-              </button>
-              <button
-                className="rounded-full border border-red-400/70 px-4 py-2 text-sm cursor-pointer text-red-500 hover:border-red-500"
-                onClick={onDelete}
-              >
-                Delete
-              </button>
+              {canEdit && (
+                <>
+                  <button
+                    className="rounded-full border border-border px-4 py-2 text-sm cursor-pointer hover:border-emerald-400"
+                    onClick={() => setEditing(true)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="rounded-full border border-red-400/70 px-4 py-2 text-sm cursor-pointer text-red-500 hover:border-red-500"
+                    onClick={onDelete}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+              {!canEdit && (
+                <p className="text-sm text-muted">
+                  You can only edit your own recipes.
+                </p>
+              )}
               <button
                 className="rounded-full border border-border px-4 py-2 text-sm cursor-pointer text-muted hover:border-emerald-400"
                 onClick={onClose}

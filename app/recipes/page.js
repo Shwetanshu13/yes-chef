@@ -59,6 +59,7 @@ export default function RecipesPage() {
             {selected && (
                 <RecipeDetail
                     recipe={selected}
+                    currentUserId={user?.id}
                     onClose={() => setSelected(null)}
                     onDelete={async () => {
                         try {
