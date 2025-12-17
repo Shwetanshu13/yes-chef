@@ -10,6 +10,30 @@ import {
 import { uploadImageFile } from "@/lib/uploads";
 import { useEffect, useState } from "react";
 
+const normalizeForm = (value = {}) => ({
+  title: value.title ?? "",
+  description: value.description ?? "",
+  cuisine: value.cuisine ?? cuisineOptions[0],
+  type: value.type ?? typeOptions[0],
+  course: value.course ?? courseOptions[0],
+  nutrition: {
+    carbs: value.nutrition?.carbs ?? "",
+    fats: value.nutrition?.fats ?? "",
+    protein: value.nutrition?.protein ?? "",
+    calories: value.nutrition?.calories ?? "",
+  },
+  ingredients:
+    Array.isArray(value.ingredients) && value.ingredients.length
+      ? value.ingredients.map((v) => v ?? "")
+      : [""],
+  steps:
+    Array.isArray(value.steps) && value.steps.length
+      ? value.steps.map((v) => v ?? "")
+      : [""],
+  image: value.image ?? "",
+  link: value.link ?? "",
+});
+
 export default function RecipeForm({
   initial = recipeDefaults,
   onSubmit,
@@ -18,12 +42,12 @@ export default function RecipeForm({
   clearOnSubmit = true,
   onChange,
 }) {
-  const [form, setForm] = useState(initial);
+  const [form, setForm] = useState(normalizeForm(initial));
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
   useEffect(() => {
-    setForm(initial);
+    setForm(normalizeForm(initial));
   }, [initial]);
 
   const updateField = (key, value) =>

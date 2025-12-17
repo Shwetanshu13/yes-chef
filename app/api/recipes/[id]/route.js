@@ -16,10 +16,10 @@ function normalizeArray(value, fallback = []) {
     return value.map((v) => (v == null ? "" : String(v))).filter((v) => v.length > 0);
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, context) {
     try {
         const user = await requireUser();
-        const { id } = params;
+        const { id } = await context.params;
         const body = await request.json();
 
         const existing = await db.select().from(recipes).where(eq(recipes.id, id)).limit(1);
@@ -49,10 +49,10 @@ export async function PATCH(request, { params }) {
     }
 }
 
-export async function DELETE(_req, { params }) {
+export async function DELETE(_req, context) {
     try {
         const user = await requireUser();
-        const { id } = params;
+        const { id } = await context.params;
         const existing = await db.select().from(recipes).where(eq(recipes.id, id)).limit(1);
         const recipe = existing[0];
         if (!recipe) return NextResponse.json({ error: "Not found" }, { status: 404 });
