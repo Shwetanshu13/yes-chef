@@ -20,7 +20,10 @@ export async function POST(request) {
 
         const token = await createSessionToken({ sub: user.id, email: user.email, name: user.name });
         const cookie = sessionCookie(token);
-        const res = NextResponse.json({ user: { id: user.id, email: user.email, name: user.name } });
+        const res = NextResponse.json({
+            token,
+            user: { id: user.id, email: user.email, name: user.name },
+        });
         res.cookies.set(cookie.name, cookie.value, cookie.options);
         return res;
     } catch (error) {
