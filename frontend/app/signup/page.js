@@ -36,7 +36,7 @@ function SignupInner() {
     };
 
     return (
-        <div className="mx-auto max-w-md card p-8">
+        <div className="mx-auto w-full max-w-md card p-6 sm:p-8">
             <h1 className="text-2xl font-semibold">Create your kitchen</h1>
             <p className="mt-2 text-sm text-muted">Store recipes and share with friends.</p>
             <form onSubmit={submit} className="mt-6 grid gap-4">
@@ -70,7 +70,7 @@ function SignupInner() {
                     />
                 </label>
                 {error && <p className="text-sm text-red-400">{error}</p>}
-                <button type="submit" disabled={busy} className="btn-primary">
+                <button type="submit" disabled={busy} className="btn-primary w-full">
                     {busy ? "Creating..." : "Create account"}
                 </button>
             </form>

@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
                     <ToastProvider>
                         <div className="min-h-screen bg-[color:var(--background)] text-[color:var(--foreground)]">
                             <NavBar />
-                            <main className="mx-auto max-w-6xl px-6 pb-16 pt-10">{children}</main>
+                            <main className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:px-6 sm:pt-10">{children}</main>
                         </div>
                     </ToastProvider>
                 </AuthProvider>

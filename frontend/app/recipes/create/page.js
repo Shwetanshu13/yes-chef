@@ -98,14 +98,14 @@ export default function CreateRecipePage() {
     };
 
     return (
-        <div className="grid gap-10">
+        <div className="grid gap-8 sm:gap-10">
             <header className="grid gap-2">
                 <p className="text-sm uppercase tracking-[0.2em] text-emerald-500">Create</p>
                 <h1 className="text-3xl font-semibold">Add a recipe</h1>
                 <p className="text-sm text-muted">Manual entry or let AI help.</p>
             </header>
 
-            <section className="card grid gap-4 p-6">
+            <section className="card grid gap-4 p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold">Manual</h2>
                     <span className="text-xs uppercase tracking-wide text-muted">Full control</span>
@@ -113,7 +113,7 @@ export default function CreateRecipePage() {
                 <RecipeForm onSubmit={handleManual} busy={manualBusy} />
             </section>
 
-            <section className="grid gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
+            <section className="grid gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 sm:p-6 shadow-sm">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-xl font-semibold">Semi AI</h2>
                     <p className="text-sm text-muted">Paste messy notes, we structure them.</p>
@@ -124,7 +124,7 @@ export default function CreateRecipePage() {
                     value={rawText}
                     onChange={(e) => setRawText(e.target.value)}
                 />
-                <button onClick={handleStructure} disabled={aiBusy} className="btn-primary self-start">
+                <button onClick={handleStructure} disabled={aiBusy} className="btn-primary w-full sm:w-auto sm:self-start">
                     {aiBusy ? "Thinking..." : "Structure with AI"}
                 </button>
                 <div className="card p-4">
@@ -133,7 +133,7 @@ export default function CreateRecipePage() {
                 </div>
             </section>
 
-            <section className="card grid gap-3 p-6">
+            <section className="card grid gap-3 p-4 sm:p-6">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-xl font-semibold">Full AI</h2>
                     <p className="text-sm text-muted">Describe a dish; AI drafts it.</p>
@@ -144,7 +144,7 @@ export default function CreateRecipePage() {
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                 />
-                <button onClick={handleGenerate} disabled={aiBusy} className="btn-primary self-start">
+                <button onClick={handleGenerate} disabled={aiBusy} className="btn-primary w-full sm:w-auto sm:self-start">
                     {aiBusy ? "Cooking..." : "Generate recipe"}
                 </button>
             </section>

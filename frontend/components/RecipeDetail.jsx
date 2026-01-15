@@ -49,7 +49,7 @@ export default function RecipeDetail({
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-neutral-950/80 p-4 backdrop-blur-sm">
-      <div className="card relative max-h-[90vh] w-full max-w-4xl overflow-y-auto p-6">
+      <div className="card relative max-h-[90vh] w-full max-w-4xl overflow-y-auto p-4 sm:p-6">
         <button
           className="absolute right-3 top-3 text-sm text-muted hover:text-accent cursor-pointer"
           onClick={onClose}
@@ -86,7 +86,7 @@ export default function RecipeDetail({
                 <img
                   src={recipe.image}
                   alt={recipe.title}
-                  className="h-32 w-32 rounded-xl object-cover border border-border"
+                  className="h-28 w-28 sm:h-32 sm:w-32 rounded-xl object-cover border border-border"
                 />
               )}
               <div className="flex-1 space-y-2">

@@ -6,10 +6,10 @@ export default function RecipeFilters({ filters, onChange }) {
   const handle = (key, value) => onChange({ ...filters, [key]: value });
 
   return (
-    <div className="card flex flex-wrap gap-3 p-4 text-sm">
+    <div className="card grid grid-cols-1 gap-3 p-4 text-sm sm:grid-cols-6">
       <input
         placeholder="Search title"
-        className="input min-w-[180px]"
+        className="input sm:col-span-2"
         value={filters.search || ""}
         onChange={(e) => handle("search", e.target.value)}
       />
@@ -35,10 +35,12 @@ export default function RecipeFilters({ filters, onChange }) {
         label="Scope"
         value={filters.scope}
         onChange={(v) => handle("scope", v)}
-        options={["mine", "friends"]}
+        options={["all", "mine", "friends"]}
+        includeAny={false}
       />
       <button
-        className="rounded-lg border border-border px-3 py-2 hover:border-emerald-400"
+        type="button"
+        className="rounded-xl border border-border px-3 py-2 hover:border-emerald-400 sm:col-span-1"
         onClick={() =>
           onChange({
             search: "",
@@ -55,16 +57,16 @@ export default function RecipeFilters({ filters, onChange }) {
   );
 }
 
-function Select({ label, value, onChange, options }) {
+function Select({ label, value, onChange, options, includeAny = true }) {
   return (
-    <label className="flex items-center gap-2 text-xs uppercase tracking-wide text-muted">
-      {label}
+    <label className="grid gap-1 text-xs uppercase tracking-wide text-muted">
+      <span>{label}</span>
       <select
-        className="rounded-lg border border-border px-2 py-2 text-sm focus:border-emerald-400 focus:outline-none"
-        value={value || ""}
+        className="input"
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
       >
-        <option value="">Any</option>
+        {includeAny && <option value="">Any</option>}
         {options.map((opt) => (
           <option key={opt} value={opt}>
             {opt}

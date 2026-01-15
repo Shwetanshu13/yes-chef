@@ -31,12 +31,24 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background: radial-gradient(circle at 20% 20%, rgba(52, 211, 153, 0.06), transparent 35%),
     radial-gradient(circle at 80% 0%, rgba(99, 102, 241, 0.05), transparent 25%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
 }
 
 .card {
