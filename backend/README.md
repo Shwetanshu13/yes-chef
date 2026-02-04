@@ -36,9 +36,7 @@ See the main [README.md](../README.md) for API endpoints.
 
 ## Mobile Client Support
 
-The API supports both cookie-based auth (web) and token-based auth (mobile):
+The API uses JWT auth via headers:
 
-- Web clients automatically use cookies
-- Mobile clients should send `Authorization: Bearer <token>` header
-
-Both login and signup endpoints return a `token` field that mobile clients should store securely.
+- Clients should send `Authorization: Bearer <token>` (or `x-session-token: <token>`) on protected routes
+- Both login and signup endpoints return a `token` field that clients should store securely

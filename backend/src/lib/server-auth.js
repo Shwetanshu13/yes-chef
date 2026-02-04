@@ -1,6 +1,6 @@
 import { db } from "../db/index.js";
 import { users } from "../db/schema.js";
-import { SESSION_COOKIE_NAME, verifySessionToken } from "./auth.js";
+import { verifySessionToken } from "./auth.js";
 import { eq } from "drizzle-orm";
 
 function extractBearerToken(headerValue) {
@@ -10,11 +10,7 @@ function extractBearerToken(headerValue) {
 }
 
 function getSessionToken(req) {
-    // Try cookie first (web clients)
-    const tokenFromCookie = req.cookies?.[SESSION_COOKIE_NAME];
-    if (tokenFromCookie) return tokenFromCookie;
-
-    // Try Authorization header (mobile clients)
+    // Prefer Authorization header (web/mobile) with x-session-token fallback
     const authHeader = req.headers.authorization || req.headers.Authorization;
     const headerToken = extractBearerToken(authHeader) || req.headers["x-session-token"];
     return headerToken || null;

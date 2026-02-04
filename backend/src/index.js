@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.js";
 import recipesRoutes from "./routes/recipes.js";
@@ -27,12 +26,12 @@ app.use(
             }
             return callback(new Error("Not allowed by CORS"));
         },
-        credentials: true,
+        credentials: false,
+        allowedHeaders: ["Content-Type", "Authorization", "x-session-token"],
     })
 );
 
 app.use(express.json());
-app.use(cookieParser());
 
 // Health check
 app.get("/api/health", (_req, res) => {

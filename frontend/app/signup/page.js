@@ -9,7 +9,7 @@ function SignupInner() {
     const router = useRouter();
     const search = useSearchParams();
     const redirectTo = search.get("redirect") || "/recipes";
-    const { refresh } = useAuth();
+    const { login } = useAuth();
     const [form, setForm] = useState({ name: "", email: "", password: "" });
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
@@ -26,7 +26,7 @@ function SignupInner() {
             });
             const json = await res.json();
             if (!res.ok) throw new Error(json.error || "Sign up failed");
-            await refresh();
+            login(json.token, json.user);
             router.push(redirectTo);
         } catch (err) {
             setError(err?.message || "Sign up failed");

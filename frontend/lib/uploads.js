@@ -1,8 +1,10 @@
+import { authFetch } from "./auth";
+
 export async function uploadImageFile(file) {
     if (!file) throw new Error("No file provided");
     const form = new FormData();
     form.append("file", file);
-    const res = await fetch("/api/uploads/image", {
+    const res = await authFetch("/api/uploads/image", {
         method: "POST",
         body: form,
     });

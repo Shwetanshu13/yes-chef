@@ -1,7 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET || "dev-secret");
-const cookieName = "yc_session";
 
 export async function createSessionToken(payload) {
     return new SignJWT(payload)
@@ -18,19 +17,3 @@ export async function verifySessionToken(token) {
         return null;
     }
 }
-
-export function sessionCookie(token) {
-    return {
-        name: cookieName,
-        value: token,
-        options: {
-            httpOnly: true,
-            sameSite: "lax",
-            path: "/",
-            secure: process.env.NODE_ENV === "production",
-            maxAge: 60 * 60 * 24 * 7 * 1000, // 7 days in ms for Express
-        },
-    };
-}
-
-export const SESSION_COOKIE_NAME = cookieName;

@@ -1,11 +1,13 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { getToken, setToken, clearToken, authFetch } from "@/lib/auth";
 
 const AuthContext = createContext({
   user: null,
   loading: true,
   refresh: async () => {},
+  login: (token, user) => {},
   logout: async () => {},
 });
 
@@ -16,12 +18,18 @@ export function AuthProvider({ children }) {
   const load = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/me");
+      const token = getToken();
+      if (!token) {
+        setUser(null);
+        return;
+      }
+      const res = await authFetch("/api/auth/me");
       const json = await res.json();
       setUser(json.user);
     } catch (error) {
       console.error(error);
       setUser(null);
+      clearToken();
     } finally {
       setLoading(false);
     }
@@ -31,14 +39,30 @@ export function AuthProvider({ children }) {
     load();
   }, []);
 
+  const handleLogin = (token, userData) => {
+    setToken(token);
+    setUser(userData);
+  };
+
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    try {
+      await authFetch("/api/auth/logout", { method: "POST" });
+    } catch (_) {
+      // Ignore logout errors
+    }
+    clearToken();
     setUser(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, refresh: load, logout: handleLogout }}
+      value={{
+        user,
+        loading,
+        refresh: load,
+        login: handleLogin,
+        logout: handleLogout,
+      }}
     >
       {children}
     </AuthContext.Provider>
