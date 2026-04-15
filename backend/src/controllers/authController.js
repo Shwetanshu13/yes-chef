@@ -1,4 +1,4 @@
-import { compare, hash } from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
 import { db } from "../db/index.js";
@@ -19,7 +19,7 @@ export async function login(req, res) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
 
-        const ok = await compare(password, user.passwordHash);
+        const ok = await bcrypt.compare(password, user.passwordHash);
         if (!ok) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
@@ -47,7 +47,7 @@ export async function signup(req, res) {
             return res.status(409).json({ error: "Email already in use" });
         }
 
-        const passwordHash = await hash(password, 10);
+        const passwordHash = await bcrypt.hash(password, 10);
         const inserted = await db
             .insert(users)
             .values({ name, email: email.toLowerCase(), passwordHash })
