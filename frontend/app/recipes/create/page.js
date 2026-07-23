@@ -6,8 +6,9 @@ import { recipeDefaults } from "@/lib/enums";
 import { saveManualRecipe, saveStructuredRecipe } from "@/lib/recipes";
 import { useState } from "react";
 import { useToast } from "@/components/providers/ToastProvider";
+import { withAuth } from "@/components/providers/routeGuards";
 
-export default function CreateRecipePage() {
+function CreateRecipePage() {
     const { user } = useAuth();
     const [manualBusy, setManualBusy] = useState(false);
     const [aiBusy, setAiBusy] = useState(false);
@@ -16,13 +17,6 @@ export default function CreateRecipePage() {
     const [rawText, setRawText] = useState("");
     const [aiPrompt, setAiPrompt] = useState("");
     const [message, setMessage] = useState("");
-
-    if (!user)
-        return (
-            <div className="card p-6">
-                <p>Please sign in to create recipes.</p>
-            </div>
-        );
 
     const handleManual = async (data) => {
         setManualBusy(true);
@@ -113,7 +107,7 @@ export default function CreateRecipePage() {
                 <RecipeForm onSubmit={handleManual} busy={manualBusy} />
             </section>
 
-            <section className="grid gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 sm:p-6 shadow-sm">
+            <section className="grid gap-4 rounded-3xl border border-emerald-200 bg-emerald-50/50 p-4 sm:p-6 shadow-sm backdrop-blur">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-xl font-semibold">Semi AI</h2>
                     <p className="text-sm text-muted">Paste messy notes, we structure them.</p>
@@ -153,3 +147,5 @@ export default function CreateRecipePage() {
         </div>
     );
 }
+
+export default withAuth(CreateRecipePage);

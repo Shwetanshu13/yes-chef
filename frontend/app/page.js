@@ -18,41 +18,45 @@ const featureCards = [
 
 export default function Home() {
     return (
-        <section className="grid gap-10">
-            <div className="rounded-3xl border border-emerald-200 bg-linear-to-br from-white via-emerald-50 to-white p-6 shadow-xl sm:p-10">
-                <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:gap-10">
-                    <div className="relative h-24 w-24 flex-shrink-0 sm:h-32 sm:w-32 lg:h-40 lg:w-40">
-                        <Image src="/logo.svg" alt="Yes Chef" fill sizes="160px" priority className="object-contain" />
-                    </div>
-                    <div className="space-y-4 text-center lg:text-left">
-                        <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">Cooking with AI</p>
-                        <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
-                            A minimal recipe hub with friendly sharing and AI-powered creation.
+        <section className="grid gap-12 sm:gap-16">
+            <div className="card overflow-hidden border-0 bg-transparent p-6 sm:p-12 lg:p-16 text-center lg:text-left shadow-none hover:-translate-y-0 hover:shadow-none">
+                <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+                    <div className="space-y-6 flex-1 max-w-2xl">
+                        <p className="text-sm font-semibold uppercase tracking-[0.4em] text-accent animate-pulse">Cooking with AI</p>
+                        <h1 className="text-4xl font-bold leading-[1.15] sm:text-5xl lg:text-6xl text-foreground">
+                            A minimal recipe hub with friendly sharing and <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-indigo-500">AI-powered creation.</span>
                         </h1>
-                        <p className="max-w-2xl text-lg text-muted">
+                        <p className="text-lg text-muted sm:text-xl leading-relaxed">
                             Capture your own dishes, auto-structure messy notes, or let AI cook up something new. Invite
                             friends to follow and browse each other's favorites.
                         </p>
-                        <div className="flex flex-wrap gap-3">
-                            <Link href="/signup" className="btn-primary">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                            <Link href="/signup" className="btn-primary text-base px-8 py-3.5">
                                 Create account
                             </Link>
-                            <Link href="/recipes" className="btn-ghost">
+                            <Link href="/recipes" className="btn-ghost text-base px-8 py-3.5">
                                 Browse recipes
                             </Link>
                         </div>
                     </div>
+                    
+                    <div className="relative h-40 w-40 flex-shrink-0 sm:h-56 sm:w-56 lg:h-72 lg:w-72 drop-shadow-2xl transition-transform duration-700 hover:scale-110 hover:rotate-3">
+                        <Image src="/logo.svg" alt="Yes Chef" fill sizes="(max-width: 768px) 160px, 288px" priority className="object-contain filter drop-shadow-[0_20px_20px_rgba(16,185,129,0.3)]" />
+                    </div>
                 </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-3">
                 {featureCards.map((card) => (
                     <div
                         key={card.title}
-                        className="card p-5"
+                        className="card group p-8 hover:bg-[color:var(--card-border)]/5"
                     >
-                        <h3 className="text-xl font-semibold">{card.title}</h3>
-                        <p className="mt-2 text-sm text-muted">{card.body}</p>
+                        <div className="mb-4 h-12 w-12 rounded-2xl bg-accent/10 flex items-center justify-center transition-colors group-hover:bg-accent/20">
+                            <div className="h-6 w-6 rounded-full bg-accent/80 group-hover:animate-ping" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
+                        <p className="mt-3 text-base text-muted leading-relaxed">{card.body}</p>
                     </div>
                 ))}
             </div>

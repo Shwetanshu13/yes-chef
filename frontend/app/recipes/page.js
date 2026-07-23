@@ -7,9 +7,10 @@ import { deleteRecipe, fetchRecipes } from "@/lib/recipes";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeDetail from "@/components/RecipeDetail";
 import RecipeFilters from "@/components/RecipeFilters";
+import { withAuth } from "@/components/providers/routeGuards";
 
-export default function RecipesPage() {
-    const { user, loading } = useAuth();
+function RecipesPage() {
+    const { user } = useAuth();
     const { toast } = useToast();
     const [filters, setFilters] = useState({ search: "", cuisine: "", course: "", type: "", scope: "all" });
     const [recipes, setRecipes] = useState([]);
@@ -30,14 +31,6 @@ export default function RecipesPage() {
         };
         load();
     }, [user, JSON.stringify(filters)]);
-
-    if (loading) return <p>Loading...</p>;
-    if (!user)
-        return (
-            <div className="card p-6">
-                <p>Please sign in to view recipes.</p>
-            </div>
-        );
 
     return (
         <div className="grid gap-6">
@@ -80,3 +73,5 @@ export default function RecipesPage() {
         </div>
     );
 }
+
+export default withAuth(RecipesPage);

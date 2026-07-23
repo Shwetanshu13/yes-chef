@@ -3,8 +3,9 @@
 import { useAuth } from "@/components/providers/AuthProvider";
 import { addFriend, fetchFriends } from "@/lib/recipes";
 import { useEffect, useState } from "react";
+import { withAuth } from "@/components/providers/routeGuards";
 
-export default function FriendsPage() {
+function FriendsPage() {
     const { user } = useAuth();
     const [email, setEmail] = useState("");
     const [friends, setFriends] = useState([]);
@@ -15,13 +16,6 @@ export default function FriendsPage() {
         if (!user) return;
         fetchFriends().then(setFriends).catch(console.error);
     }, [user]);
-
-    if (!user)
-        return (
-            <div className="card p-6">
-                <p>Please sign in to manage friends.</p>
-            </div>
-        );
 
     const invite = async () => {
         setBusy(true);
@@ -76,3 +70,5 @@ export default function FriendsPage() {
         </div>
     );
 }
+
+export default withAuth(FriendsPage);

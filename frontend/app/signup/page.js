@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { withGuest } from "@/components/providers/routeGuards";
 
 function SignupInner() {
     const router = useRouter();
@@ -81,10 +82,12 @@ function SignupInner() {
     );
 }
 
-export default function SignupPage() {
+function SignupPage() {
     return (
         <Suspense fallback={null}>
             <SignupInner />
         </Suspense>
     );
 }
+
+export default withGuest(SignupPage);

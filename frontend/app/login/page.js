@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/AuthProvider";
+import { withGuest } from "@/components/providers/routeGuards";
 
 function LoginInner() {
     const router = useRouter();
@@ -72,10 +73,12 @@ function LoginInner() {
     );
 }
 
-export default function LoginPage() {
+function LoginPage() {
     return (
         <Suspense fallback={null}>
             <LoginInner />
         </Suspense>
     );
 }
+
+export default withGuest(LoginPage);
